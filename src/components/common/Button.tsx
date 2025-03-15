@@ -1,161 +1,225 @@
 import React from "react";
-import styled from "styled-components/native";
-import { TouchableOpacity, Text, ActivityIndicator, TouchableOpacityProps } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  View,
+} from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
+import { Theme } from "../../styles/theme";
 
-interface ButtonProps extends TouchableOpacityProps {
-  variant?: "primary" | "secondary" | "text";
-  size?: "small" | "medium" | "large";
-  label: string;
-  isLoading?: boolean;
-  icon?: React.ReactNode;
+export type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "danger";
+export type ButtonSize = "small" | "medium" | "large";
+
+interface ButtonProps {
+  children: React.ReactNode;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   fullWidth?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  onPress?: () => void;
 }
 
 export const Button: React.FC<ButtonProps> = ({
+  children,
   variant = "primary",
   size = "medium",
-  label,
-  isLoading = false,
-  icon,
   fullWidth = false,
-  ...props
+  disabled = false,
+  loading = false,
+  startIcon,
+  endIcon,
+  style,
+  textStyle,
+  onPress,
 }) => {
   const { theme } = useTheme();
 
-  // 버튼 스타일 설정
-  const getButtonStyle = () => {
+  // 버튼 크기별 스타일
+  const sizeStyles: Record<ButtonSize, { button: ViewStyle; text: TextStyle }> = {
+    small: {
+      button: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 4,
+      },
+      text: {
+        fontSize: 13,
+      },
+    },
+    medium: {
+      button: {
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 6,
+      },
+      text: {
+        fontSize: 15,
+      },
+    },
+    large: {
+      button: {
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+      },
+      text: {
+        fontSize: 16,
+      },
+    },
+  };
+
+  // 버튼 배리언트별 스타일
+  const getVariantStyles = (variant: ButtonVariant, theme: Theme) => {
     switch (variant) {
       case "primary":
         return {
-          backgroundColor: theme.colors.brandMain,
-          borderColor: theme.colors.brandMain,
+          button: {
+            backgroundColor: theme.colors.brandMain,
+            borderWidth: 0,
+          },
+          text: {
+            color: theme.colors.backgroundLight,
+          },
         };
       case "secondary":
         return {
-          backgroundColor: "transparent",
-          borderColor: theme.colors.brandMain,
+          button: {
+            backgroundColor: theme.colors.brandSecondary,
+            borderWidth: 0,
+          },
+          text: {
+            color: theme.colors.backgroundLight,
+          },
         };
-      case "text":
+      case "outline":
         return {
-          backgroundColor: "transparent",
-          borderColor: "transparent",
+          button: {
+            backgroundColor: "transparent",
+            borderWidth: 1,
+            borderColor: theme.colors.brandMain,
+          },
+          text: {
+            color: theme.colors.brandMain,
+          },
+        };
+      case "ghost":
+        return {
+          button: {
+            backgroundColor: "transparent",
+            borderWidth: 0,
+          },
+          text: {
+            color: theme.colors.brandMain,
+          },
+        };
+      case "danger":
+        return {
+          button: {
+            backgroundColor: theme.colors.error,
+            borderWidth: 0,
+          },
+          text: {
+            color: theme.colors.backgroundLight,
+          },
         };
       default:
         return {
-          backgroundColor: theme.colors.brandMain,
-          borderColor: theme.colors.brandMain,
+          button: {},
+          text: {},
         };
     }
   };
 
-  // 텍스트 스타일 설정
-  const getTextStyle = () => {
-    switch (variant) {
-      case "primary":
-        return {
-          color: "#FFFFFF",
-        };
-      case "secondary":
-      case "text":
-        return {
-          color: theme.colors.brandMain,
-        };
-      default:
-        return {
-          color: "#FFFFFF",
-        };
-    }
+  // 비활성화 상태 스타일
+  const disabledStyles = {
+    button: {
+      backgroundColor: theme.colors.textDisabledLight,
+      borderColor: theme.colors.textDisabledLight,
+      opacity: 0.6,
+    },
+    text: {
+      color: theme.colors.textDisabled,
+    },
   };
 
-  // 사이즈별 스타일 설정
-  const getSizeStyle = () => {
-    switch (size) {
-      case "small":
-        return {
-          paddingVertical: theme.spacing.xs,
-          paddingHorizontal: theme.spacing.md,
-          fontSize: theme.typography.fontSize.bodySmall,
-        };
-      case "medium":
-        return {
-          paddingVertical: theme.spacing.sm,
-          paddingHorizontal: theme.spacing.lg,
-          fontSize: theme.typography.fontSize.bodyMedium,
-        };
-      case "large":
-        return {
-          paddingVertical: theme.spacing.md,
-          paddingHorizontal: theme.spacing.xl,
-          fontSize: theme.typography.fontSize.bodyLarge,
-        };
-      default:
-        return {
-          paddingVertical: theme.spacing.sm,
-          paddingHorizontal: theme.spacing.lg,
-          fontSize: theme.typography.fontSize.bodyMedium,
-        };
+  const variantStyles = getVariantStyles(variant, theme);
+  const buttonSizeStyle = sizeStyles[size];
+
+  const buttonStyles = [
+    styles.button,
+    buttonSizeStyle.button,
+    variantStyles.button,
+    fullWidth && styles.fullWidth,
+    (disabled || loading) && disabledStyles.button,
+    style,
+  ];
+
+  const textStyles = [
+    styles.text,
+    buttonSizeStyle.text,
+    variantStyles.text,
+    (disabled || loading) && disabledStyles.text,
+    textStyle,
+  ];
+
+  const handlePress = () => {
+    if (!disabled && !loading && onPress) {
+      onPress();
     }
   };
-
-  const buttonStyle = getButtonStyle();
-  const textStyle = getTextStyle();
-  const sizeStyle = getSizeStyle();
 
   return (
-    <ButtonContainer
-      activeOpacity={0.8}
-      fullWidth={fullWidth}
-      style={[
-        {
-          backgroundColor: buttonStyle.backgroundColor,
-          borderColor: buttonStyle.borderColor,
-          borderWidth: variant === "text" ? 0 : 1,
-          borderRadius: theme.borderRadius.md,
-          paddingVertical: sizeStyle.paddingVertical,
-          paddingHorizontal: sizeStyle.paddingHorizontal,
-        },
-        props.disabled && { opacity: 0.5 },
-      ]}
-      {...props}
-    >
-      {isLoading ? (
-        <ActivityIndicator color={textStyle.color} size="small" />
+    <TouchableOpacity style={buttonStyles} onPress={handlePress} activeOpacity={0.7} disabled={disabled || loading}>
+      {loading ? (
+        <ActivityIndicator
+          size="small"
+          color={variant === "outline" || variant === "ghost" ? theme.colors.brandMain : theme.colors.backgroundLight}
+        />
       ) : (
-        <ButtonContent>
-          {icon && <IconContainer>{icon}</IconContainer>}
-          <ButtonText
-            style={{
-              color: textStyle.color,
-              fontSize: sizeStyle.fontSize,
-              fontWeight: theme.typography.fontWeight.medium as any,
-            }}
-          >
-            {label}
-          </ButtonText>
-        </ButtonContent>
+        <View style={styles.contentContainer}>
+          {startIcon && <View style={styles.startIcon}>{startIcon}</View>}
+          {typeof children === "string" ? <Text style={textStyles}>{children}</Text> : children}
+          {endIcon && <View style={styles.endIcon}>{endIcon}</View>}
+        </View>
       )}
-    </ButtonContainer>
+    </TouchableOpacity>
   );
 };
 
-const ButtonContainer = styled(TouchableOpacity)<{ fullWidth?: boolean }>`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  align-self: ${(props) => (props.fullWidth ? "stretch" : "flex-start")};
-`;
+const styles = StyleSheet.create({
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  fullWidth: {
+    width: "100%",
+  },
+  text: {
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  contentContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  startIcon: {
+    marginRight: 8,
+  },
+  endIcon: {
+    marginLeft: 8,
+  },
+});
 
-const ButtonContent = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const IconContainer = styled.View`
-  margin-right: ${({ theme }) => theme.spacing.xs}px;
-`;
-
-const ButtonText = styled.Text`
-  text-align: center;
-`;
+export default Button;

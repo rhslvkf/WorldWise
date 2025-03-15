@@ -1,106 +1,89 @@
 import React from "react";
-import styled from "styled-components/native";
-import { ViewProps } from "react-native";
+import { View, StyleSheet, StyleProp, ViewStyle, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 
-interface CardProps extends ViewProps {
+export type CardVariant = "elevated" | "outlined" | "filled";
+
+interface CardBaseProps {
   children: React.ReactNode;
-  variant?: "default" | "outlined" | "elevated";
-  padding?: "none" | "small" | "medium" | "large";
-  onPress?: () => void;
+  variant?: CardVariant;
+  style?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
 }
 
-export const Card: React.FC<CardProps> = ({ children, variant = "default", padding = "medium", onPress, ...props }) => {
-  const { theme } = useTheme();
-
-  // 패딩 스타일 설정
-  const getPadding = () => {
-    switch (padding) {
-      case "none":
-        return 0;
-      case "small":
-        return theme.spacing.sm;
-      case "medium":
-        return theme.spacing.md;
-      case "large":
-        return theme.spacing.lg;
-      default:
-        return theme.spacing.md;
-    }
+type CardButtonProps = CardBaseProps &
+  TouchableOpacityProps & {
+    onPress: () => void;
   };
 
-  // 카드 스타일 설정
-  const getCardStyle = () => {
+type CardProps = CardBaseProps | CardButtonProps;
+
+export const Card: React.FC<CardProps> = (props) => {
+  const { theme } = useTheme();
+  const { children, variant = "elevated", style, contentStyle } = props;
+
+  const isButton = "onPress" in props;
+
+  const getVariantStyle = (): ViewStyle => {
     switch (variant) {
-      case "default":
-        return {
-          backgroundColor: theme.colors.surface,
-          borderWidth: 0,
-          ...theme.shadow.light,
-        };
-      case "outlined":
-        return {
-          backgroundColor: theme.colors.surface,
-          borderWidth: 1,
-          borderColor: theme.colors.backgroundSecondary,
-          elevation: 0,
-          shadowOpacity: 0,
-        };
       case "elevated":
         return {
           backgroundColor: theme.colors.surface,
           borderWidth: 0,
           ...theme.shadow.medium,
         };
-      default:
+      case "outlined":
         return {
           backgroundColor: theme.colors.surface,
-          borderWidth: 0,
-          ...theme.shadow.light,
+          borderWidth: 1,
+          borderColor: theme.colors.textDisabledLight,
         };
+      case "filled":
+        return {
+          backgroundColor: theme.colors.backgroundLightSecondary,
+          borderWidth: 0,
+        };
+      default:
+        return {};
     }
   };
 
-  const cardStyle = getCardStyle();
-  const paddingValue = getPadding();
+  const cardStyle = [
+    styles.card,
+    {
+      borderRadius: theme.borderRadius.md,
+    },
+    getVariantStyle(),
+    style,
+  ];
 
-  if (onPress) {
+  const content = <View style={[styles.content, contentStyle]}>{children}</View>;
+
+  if (isButton) {
+    const { onPress, disabled, activeOpacity = 0.7, ...otherProps } = props as CardButtonProps;
     return (
-      <TouchableCardContainer
-        style={{
-          ...cardStyle,
-          padding: paddingValue,
-          borderRadius: theme.borderRadius.lg,
-        }}
-        activeOpacity={0.8}
+      <TouchableOpacity
+        style={cardStyle}
         onPress={onPress}
-        {...props}
+        disabled={disabled}
+        activeOpacity={activeOpacity}
+        {...otherProps}
       >
-        {children}
-      </TouchableCardContainer>
+        {content}
+      </TouchableOpacity>
     );
   }
 
-  return (
-    <CardContainer
-      style={{
-        ...cardStyle,
-        padding: paddingValue,
-        borderRadius: theme.borderRadius.lg,
-      }}
-      {...props}
-    >
-      {children}
-    </CardContainer>
-  );
+  return <View style={cardStyle}>{content}</View>;
 };
 
-const CardContainer = styled.View`
-  margin-vertical: ${({ theme }) => theme.spacing.sm}px;
-  overflow: hidden;
-`;
+const styles = StyleSheet.create({
+  card: {
+    overflow: "hidden",
+  },
+  content: {
+    padding: 16,
+  },
+});
 
-const TouchableCardContainer = styled.TouchableOpacity`
-  margin-vertical: ${({ theme }) => theme.spacing.sm}px;
-  overflow: hidden;
-`;
+export default Card;
