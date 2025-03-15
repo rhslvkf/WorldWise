@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { ThemeProvider } from "./src/contexts/ThemeContext";
+import { RootNavigator } from "./src/navigation/RootNavigator";
+import { LogBox } from "react-native";
+
+// 개발 중 일부 경고 무시 (프로덕션에서는 제거할 것)
+LogBox.ignoreLogs(["ViewPropTypes will be removed", "ColorPropType will be removed"]);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider>
+      <RootNavigator />
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
