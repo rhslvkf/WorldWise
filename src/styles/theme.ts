@@ -67,6 +67,14 @@ export const FONT_WEIGHT = {
   bold: "700",
 };
 
+// 폰트 패밀리 추가
+export const FONT_FAMILY = {
+  regular: "System",
+  medium: "System",
+  light: "System",
+  thin: "System",
+};
+
 export const SPACING = {
   xs: 4,
   sm: 8,
@@ -123,6 +131,7 @@ const lightTheme = {
     fontSize: FONT_SIZE,
     lineHeight: LINE_HEIGHT,
     fontWeight: FONT_WEIGHT,
+    fontFamily: FONT_FAMILY,
   },
   spacing: SPACING,
   borderRadius: BORDER_RADIUS,
@@ -143,6 +152,7 @@ const darkTheme = {
     fontSize: FONT_SIZE,
     lineHeight: LINE_HEIGHT,
     fontWeight: FONT_WEIGHT,
+    fontFamily: FONT_FAMILY,
   },
   spacing: SPACING,
   borderRadius: BORDER_RADIUS,

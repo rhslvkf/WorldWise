@@ -1,11 +1,9 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DarkTheme, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import { MainTabNavigator } from "./MainTabNavigator";
 import { RootStackParamList } from "../types/navigation";
 import { useTheme } from "../contexts/ThemeContext";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Text, View } from "react-native";
 
 // 임시 온보딩 화면
@@ -22,6 +20,9 @@ const AuthScreen = () => (
   </View>
 );
 
+// 네비게이터 임포트
+import { MainTabNavigator } from "./MainTabNavigator";
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator: React.FC = () => {
@@ -31,24 +32,38 @@ export const RootNavigator: React.FC = () => {
   const isAuthenticated = true; // 임시로 인증된 상태로 설정
   const hasCompletedOnboarding = true; // 임시로 온보딩 완료 상태로 설정
 
+  // 기본 테마를 선택하고 필요한 색상만 오버라이드
+  const baseTheme = isDarkMode ? DarkTheme : DefaultTheme;
+  const customTheme = {
+    ...baseTheme,
+    dark: isDarkMode,
+    colors: {
+      ...baseTheme.colors,
+      primary: theme.colors.brandMain,
+      background: theme.colors.background,
+      card: theme.colors.backgroundSecondary,
+      text: theme.colors.text,
+      border: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
+      notification: theme.colors.error,
+    },
+  };
+
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar style={isDarkMode ? "light" : "dark"} />
-        <Stack.Navigator
-          initialRouteName={!hasCompletedOnboarding ? "Onboarding" : !isAuthenticated ? "Auth" : "Main"}
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: theme.colors.background,
-            },
-          }}
-        >
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          <Stack.Screen name="Auth" component={AuthScreen} />
-          <Stack.Screen name="Main" component={MainTabNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <NavigationContainer theme={customTheme}>
+      <StatusBar style={isDarkMode ? "light" : "dark"} />
+      <Stack.Navigator
+        initialRouteName={!hasCompletedOnboarding ? "Onboarding" : !isAuthenticated ? "Auth" : "Main"}
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: theme.colors.background,
+          },
+        }}
+      >
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="Main" component={MainTabNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };

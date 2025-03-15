@@ -3,6 +3,7 @@ import { TouchableOpacity, ViewStyle, TextStyle } from "react-native";
 import styled from "styled-components/native";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Theme } from "../../styles/theme";
+import { Icon } from "../common/Icon";
 
 interface QuizOptionProps {
   text: string;
@@ -180,10 +181,9 @@ export const QuizOption: React.FC<QuizOptionProps> = ({
       selected={selected}
       correct={correct}
       incorrect={incorrect}
-      disabled={disabled}
+      disabled={disabled || correct || incorrect || !onPress}
       theme={theme}
       onPress={onPress}
-      disabled={disabled || correct || incorrect || !onPress}
       activeOpacity={0.7}
       style={style}
     >
@@ -206,9 +206,12 @@ export const QuizOption: React.FC<QuizOptionProps> = ({
         {text}
       </OptionText>
 
-      {/* 여기에 필요한 경우 정답/오답 아이콘 추가 가능 */}
+      {/* 정답/오답 아이콘 추가 */}
       {(correct || incorrect) && (
-        <StatusIconContainer theme={theme}>{/* 아이콘 컴포넌트가 있다면 사용할 수 있습니다 */}</StatusIconContainer>
+        <StatusIconContainer theme={theme}>
+          {correct && <Icon name="check" size={20} color={theme.colors.success} />}
+          {incorrect && <Icon name="close" size={20} color={theme.colors.error} />}
+        </StatusIconContainer>
       )}
     </OptionContainer>
   );
