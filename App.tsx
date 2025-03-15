@@ -1,5 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "./src/contexts/ThemeContext";
+import { LocaleProvider } from "./src/contexts/LocaleContext";
 import { RootNavigator } from "./src/navigation/RootNavigator";
 import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -11,7 +12,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <RootNavigator />
+        <LocaleProvider>
+          <RootNavigator />
+        </LocaleProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useLocale } from "../../contexts/LocaleContext";
 import { Card, Button, Badge, QuizOption } from "../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +12,7 @@ type QuizCategory = "daily" | "all";
 
 const QuizScreen: React.FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const [selectedTab, setSelectedTab] = useState<QuizCategory>("daily");
 
   return (
@@ -41,7 +43,7 @@ const QuizScreen: React.FC = () => {
                 { color: selectedTab === "daily" ? theme.colors.brandMain : theme.colors.textSecondary },
               ]}
             >
-              오늘의 퀴즈
+              {t("home.dailyChallenge")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -67,7 +69,7 @@ const QuizScreen: React.FC = () => {
                 { color: selectedTab === "all" ? theme.colors.brandMain : theme.colors.textSecondary },
               ]}
             >
-              모든 퀴즈
+              {t("quiz.categories.all")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -85,13 +87,14 @@ interface QuizContentProps {
 }
 
 const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
+  const { t } = useLocale();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   return (
     <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>오늘의 퀴즈 챌린지</Text>
+      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("home.dailyChallenge")}</Text>
       <Text style={[styles.sectionDescription, { color: theme.colors.textSecondary }]}>
-        매일 새로운 퀴즈에 도전하고 보상을 획득하세요!
+        {t("home.completeChallenge")}
       </Text>
 
       <Card variant="elevated" style={styles.dailyQuizCard}>
@@ -100,7 +103,7 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
             <View style={[styles.iconContainer, { backgroundColor: `${theme.colors.brandSecondary}30` }]}>
               <Ionicons name="flash-outline" size={16} color={theme.colors.brandSecondary} />
             </View>
-            <Text style={[styles.dailyQuizTitle, { color: theme.colors.text }]}>세계 수도 퀴즈</Text>
+            <Text style={[styles.dailyQuizTitle, { color: theme.colors.text }]}>{t("quiz.title")}</Text>
           </View>
           <Badge
             title="300 XP"
@@ -111,37 +114,43 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
         </View>
 
         <Text style={[styles.dailyQuizDescription, { color: theme.colors.textSecondary }]}>
-          오늘의 퀴즈를 완료하면 추가 보상으로 300 XP를 획득할 수 있습니다.
+          {t("home.completeChallenge")}
         </Text>
 
         <View style={styles.quizInfoContainer}>
           <View style={styles.quizInfoItem}>
             <Ionicons name="help-circle-outline" size={14} color={theme.colors.textSecondary} style={styles.infoIcon} />
-            <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>10개 문제</Text>
+            <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>
+              {t("quiz.quizInfo", { count: 10, time: 5, difficulty: t("quiz.difficulty.medium") })}
+            </Text>
           </View>
           <View style={styles.quizInfoItem}>
             <Ionicons name="time-outline" size={14} color={theme.colors.textSecondary} style={styles.infoIcon} />
-            <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>약 5분 소요</Text>
+            <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>
+              {t("quiz.timeOptions.seconds30")}
+            </Text>
           </View>
           <View style={styles.quizInfoItem}>
             <Ionicons name="ribbon-outline" size={14} color={theme.colors.textSecondary} style={styles.infoIcon} />
-            <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>중간 난이도</Text>
+            <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>
+              {t("quiz.difficulty.medium")}
+            </Text>
           </View>
         </View>
 
         <Button variant="primary" size="medium" style={styles.dailyQuizButton}>
-          지금 도전하기
+          {t("quiz.start")}
         </Button>
       </Card>
 
       {/* 퀴즈 예제 추가 */}
-      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>퀴즈 예제</Text>
+      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("quiz.title")}</Text>
       <Card variant="elevated" style={styles.quizExampleCard}>
-        <Text style={[styles.quizQuestion, { color: theme.colors.text }]}>대한민국의 수도는 어디인가요?</Text>
+        <Text style={[styles.quizQuestion, { color: theme.colors.text }]}>{t("countryQuiz.exampleQuestion")}</Text>
 
         <View style={styles.quizOptionsContainer}>
           <QuizOption
-            text="서울"
+            text={t("countryQuiz.optionA")}
             optionKey="A"
             selected={selectedOption === "A"}
             correct={selectedOption !== null && selectedOption === "A"}
@@ -149,7 +158,7 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
             onPress={() => setSelectedOption("A")}
           />
           <QuizOption
-            text="부산"
+            text={t("countryQuiz.optionB")}
             optionKey="B"
             selected={selectedOption === "B"}
             correct={false}
@@ -157,7 +166,7 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
             onPress={() => setSelectedOption("B")}
           />
           <QuizOption
-            text="인천"
+            text={t("countryQuiz.optionC")}
             optionKey="C"
             selected={selectedOption === "C"}
             correct={false}
@@ -165,7 +174,7 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
             onPress={() => setSelectedOption("C")}
           />
           <QuizOption
-            text="대전"
+            text={t("countryQuiz.optionD")}
             optionKey="D"
             selected={selectedOption === "D"}
             correct={false}
@@ -182,18 +191,16 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
                 { color: selectedOption === "A" ? theme.colors.success : theme.colors.error },
               ]}
             >
-              {selectedOption === "A"
-                ? "정답입니다! 서울은 대한민국의 수도입니다."
-                : "오답입니다. 정답은 '서울'입니다."}
+              {selectedOption === "A" ? t("countryQuiz.correctAnswer") : t("countryQuiz.wrongAnswer")}
             </Text>
             <Button variant="primary" size="small" style={styles.nextButton} onPress={() => setSelectedOption(null)}>
-              다음 문제
+              {t("quiz.nextQuestion")}
             </Button>
           </View>
         )}
       </Card>
 
-      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>이전 도전 기록</Text>
+      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("profile.quizHistory")}</Text>
 
       <Card variant="outlined" style={styles.previousQuizCard}>
         <View style={styles.previousQuizHeader}>
@@ -202,12 +209,14 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
               <Ionicons name="globe-outline" size={16} color={theme.colors.brandMain} />
             </View>
             <View>
-              <Text style={[styles.previousQuizTitle, { color: theme.colors.text }]}>유럽 국가 퀴즈</Text>
-              <Text style={[styles.previousQuizDate, { color: theme.colors.textSecondary }]}>어제</Text>
+              <Text style={[styles.previousQuizTitle, { color: theme.colors.text }]}>
+                {t("explore.continent.europe")} {t("quiz.title")}
+              </Text>
+              <Text style={[styles.previousQuizDate, { color: theme.colors.textSecondary }]}>{t("yesterday")}</Text>
             </View>
           </View>
           <Badge
-            title="7/10 정답"
+            title="7/10"
             type="info"
             size="small"
             leftIcon={<Ionicons name="checkmark-outline" size={10} color={theme.colors.info} />}
@@ -222,12 +231,16 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
               <Ionicons name="flag-outline" size={16} color={theme.colors.warning} />
             </View>
             <View>
-              <Text style={[styles.previousQuizTitle, { color: theme.colors.text }]}>세계 수도 퀴즈</Text>
-              <Text style={[styles.previousQuizDate, { color: theme.colors.textSecondary }]}>3일 전</Text>
+              <Text style={[styles.previousQuizTitle, { color: theme.colors.text }]}>
+                {t("quiz.capital")} {t("quiz.title")}
+              </Text>
+              <Text style={[styles.previousQuizDate, { color: theme.colors.textSecondary }]}>
+                {t("daysAgo", { count: 3 })}
+              </Text>
             </View>
           </View>
           <Badge
-            title="9/10 정답"
+            title="9/10"
             type="success"
             size="small"
             leftIcon={<Ionicons name="checkmark-outline" size={10} color={theme.colors.success} />}
@@ -240,56 +253,58 @@ const DailyQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
 
 // 모든 퀴즈 콘텐츠
 const AllQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
+  const { t } = useLocale();
+
   // 퀴즈 카테고리 데이터
   const categories = [
-    { id: "geography", name: "지리", icon: "globe-outline" as const },
-    { id: "history", name: "역사", icon: "time-outline" as const },
-    { id: "culture", name: "문화", icon: "color-palette-outline" as const },
-    { id: "food", name: "음식", icon: "restaurant-outline" as const },
-    { id: "language", name: "언어", icon: "chatbubble-outline" as const },
-    { id: "landmarks", name: "랜드마크", icon: "location-outline" as const },
+    { id: "geography", name: t("quiz.categories.geography"), icon: "globe-outline" as const },
+    { id: "history", name: t("quiz.categories.history"), icon: "time-outline" as const },
+    { id: "culture", name: t("quiz.categories.culture"), icon: "color-palette-outline" as const },
+    { id: "food", name: t("quiz.categories.food"), icon: "restaurant-outline" as const },
+    { id: "famousPeople", name: t("quiz.categories.famousPeople"), icon: "chatbubble-outline" as const },
+    { id: "natureEnvironment", name: t("quiz.categories.natureEnvironment"), icon: "location-outline" as const },
   ];
 
   // 퀴즈 데이터
   const quizzes = [
     {
       id: "1",
-      title: "세계 수도 퀴즈",
-      category: "지리",
+      title: t("quizzes.capitals"),
+      category: t("quiz.categories.geography"),
       questions: 10,
       time: 5,
       icon: "globe-outline" as const,
-      difficulty: "중급",
+      difficulty: t("quiz.difficulty.medium"),
       xp: 200,
     },
     {
       id: "2",
-      title: "유럽 국가 퀴즈",
-      category: "지리",
+      title: t("quizzes.europe"),
+      category: t("quiz.categories.geography"),
       questions: 10,
       time: 5,
       icon: "globe-outline" as const,
-      difficulty: "초급",
+      difficulty: t("quiz.difficulty.easy"),
       xp: 150,
     },
     {
       id: "3",
-      title: "아시아 역사 퀴즈",
-      category: "역사",
+      title: t("quizzes.asiaHistory"),
+      category: t("quiz.categories.history"),
       questions: 15,
       time: 7,
       icon: "time-outline" as const,
-      difficulty: "상급",
+      difficulty: t("quiz.difficulty.hard"),
       xp: 300,
     },
     {
       id: "4",
-      title: "세계 음식 퀴즈",
-      category: "음식",
+      title: t("quizzes.worldFood"),
+      category: t("quiz.categories.food"),
       questions: 10,
       time: 5,
       icon: "restaurant-outline" as const,
-      difficulty: "중급",
+      difficulty: t("quiz.difficulty.medium"),
       xp: 200,
     },
   ];
@@ -300,12 +315,12 @@ const AllQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
       contentContainerStyle={styles.allQuizContentContainer}
       ListHeaderComponent={
         <>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>모든 퀴즈</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("quiz.allQuizzes")}</Text>
           <Text style={[styles.sectionDescription, { color: theme.colors.textSecondary }]}>
-            다양한 카테고리의 퀴즈를 탐험하고 지식을 쌓아보세요!
+            {t("quiz.exploreCategories")}
           </Text>
 
-          <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>카테고리</Text>
+          <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("quiz.categories.title")}</Text>
           <View style={styles.categoriesContainer}>
             {categories.map((category) => (
               <TouchableOpacity key={category.id} style={styles.categoryButton}>
@@ -317,7 +332,7 @@ const AllQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
             ))}
           </View>
 
-          <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>추천 퀴즈</Text>
+          <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("home.recommendedQuizzes")}</Text>
         </>
       }
       data={quizzes}
@@ -364,16 +379,20 @@ const AllQuizContent: React.FC<QuizContentProps> = ({ theme }) => {
                 color={theme.colors.textSecondary}
                 style={styles.infoIcon}
               />
-              <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>{item.questions}개 문제</Text>
+              <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>
+                {t("quiz.questionsCount", { count: item.questions })}
+              </Text>
             </View>
             <View style={styles.quizInfoItem}>
               <Ionicons name="time-outline" size={14} color={theme.colors.textSecondary} style={styles.infoIcon} />
-              <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>약 {item.time}분 소요</Text>
+              <Text style={[styles.quizInfoText, { color: theme.colors.textSecondary }]}>
+                {t("quiz.estimatedTime", { minutes: item.time })}
+              </Text>
             </View>
           </View>
 
           <Button variant="outline" size="small" style={styles.quizCardButton}>
-            퀴즈 풀기
+            {t("quiz.start")}
           </Button>
         </Card>
       )}

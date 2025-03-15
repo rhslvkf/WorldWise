@@ -1,0 +1,164 @@
+{
+  "common": {
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "search": "Search",
+    "viewAll": "View All",
+    "seeAll": "See All",
+    "completed": "Completed",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "start": "Start",
+    "finish": "Finish",
+    "locked": "Locked"
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome",
+    "dailyChallenge": "Daily Challenge",
+    "todayQuiz": "Today's Quiz",
+    "completeChallenge": "Complete today's challenge and get rewards!",
+    "continueQuiz": "Continue Quiz",
+    "recentlyViewed": "Recently Viewed Countries",
+    "moreCountries": "More Countries",
+    "recommendedQuizzes": "Recommended Quizzes",
+    "daysStreak": "{{count}} Day Streak",
+    "exploreEuropeanCountries": "Explore {{count}} countries in Europe"
+  },
+  "explore": {
+    "title": "Explore",
+    "storyMode": "Story Mode",
+    "worldMap": "World Map",
+    "visitedCountries": "Visited Countries",
+    "completedCountries": "Completed Countries",
+    "lockedCountries": "Locked Countries",
+    "searchCountry": "Search for countries on the map and explore!",
+    "categories": "Categories",
+    "popularCountries": "Popular Countries",
+    "continent": {
+      "asia": "Asia",
+      "europe": "Europe",
+      "northAmerica": "North America",
+      "southAmerica": "South America",
+      "africa": "Africa",
+      "oceania": "Oceania"
+    }
+  },
+  "quiz": {
+    "title": "Quiz",
+    "allQuizzes": "All Quizzes",
+    "exploreCategories": "Explore various quiz categories and build your knowledge!",
+    "start": "Start Quiz",
+    "nextQuestion": "Next Question",
+    "quizInfo": "{{count}} questions, {{time}} min, {{difficulty}}",
+    "questionsCount": "{{count}} Questions",
+    "estimatedTime": "About {{minutes}} min",
+    "capital": "Capital",
+    "categories": {
+      "title": "Categories",
+      "all": "All",
+      "geography": "Geography",
+      "history": "History",
+      "culture": "Culture",
+      "food": "Food",
+      "famousPeople": "Famous People",
+      "natureEnvironment": "Nature & Environment"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "timeOptions": {
+      "seconds15": "15 seconds",
+      "seconds30": "30 seconds",
+      "seconds45": "45 seconds",
+      "unlimited": "Unlimited"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "statistics": "Statistics",
+    "quizzesCompleted": "Quizzes Completed",
+    "correctAnswers": "Correct Answers",
+    "longestStreak": "Longest Streak",
+    "level": "Lv.{{level}}",
+    "xpToNextLevel": "{{points}} XP to next level",
+    "badges": "Badges",
+    "badgesEarned": "Badges Earned",
+    "achievements": "Achievements",
+    "quizHistory": "Quiz History",
+    "editProfile": "Edit Profile"
+  },
+  "badges": {
+    "asiaMaster": "Asia Master",
+    "asiaMasterDesc": "You've mastered all quizzes related to Asian countries!",
+    "streakDays": "{{count}} Day Streak",
+    "streakDaysDesc": "You've accessed the app for {{count}} consecutive days!",
+    "quizCount": "{{count}} Quizzes Completed",
+    "quizCountDesc": "You've successfully completed {{count}} quizzes!"
+  },
+  "achievements": {
+    "worldMap": "World Map Master",
+    "capitals": "Capital Expert",
+    "flags": "Flag Collector"
+  },
+  "countries": {
+    "usa": "United States",
+    "japan": "Japan",
+    "france": "France",
+    "italy": "Italy",
+    "australia": "Australia",
+    "brazil": "Brazil"
+  },
+  "quizzes": {
+    "capitals": "Capitals Quiz",
+    "europe": "European Countries Quiz",
+    "asiaHistory": "Asian History Quiz",
+    "worldFood": "World Food Quiz"
+  },
+  "countryQuiz": {
+    "exampleQuestion": "What is the capital of France?",
+    "optionA": "Paris",
+    "optionB": "Rome",
+    "optionC": "Berlin",
+    "optionD": "Madrid",
+    "correctAnswer": "Correct!",
+    "wrongAnswer": "Wrong answer!"
+  },
+  "onboarding": {
+    "slide1Description": "Explore countries around the world and discover new knowledge!"
+  },
+  "yesterday": "Yesterday",
+  "daysAgo": "{{count}} days ago",
+  "more": {
+    "title": "More",
+    "accountSettings": "Account Settings",
+    "appSettings": "App Settings",
+    "help": "Help",
+    "language": "Language",
+    "languageDescription": "Select a language to use in the app. All content will be displayed in the selected language.",
+    "notifications": "Notifications",
+    "theme": "Theme",
+    "soundVibration": "Sound & Vibration",
+    "feedback": "Send Feedback",
+    "faq": "Frequently Asked Questions",
+    "about": "About",
+    "appVersion": "App Version",
+    "lightMode": "Switch to Light Mode",
+    "darkMode": "Switch to Dark Mode"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "confirmPassword": "Confirm Password"
+  }
+}

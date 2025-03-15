@@ -1,43 +1,58 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useLocale } from "../../contexts/LocaleContext";
 import { Card, Badge } from "../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { MoreStackScreenProps } from "../../navigation/types";
 
-const MoreScreen: React.FC = () => {
+type MoreScreenProps = MoreStackScreenProps<"MoreMain">;
+
+const MoreScreen: React.FC<MoreScreenProps> = ({ navigation }) => {
   const { theme, toggleTheme, isDarkMode } = useTheme();
+  const { t } = useLocale();
 
   // 설정 항목 데이터
   const settings = [
     {
       id: "account",
-      title: "계정 설정",
+      title: t("more.accountSettings"),
       icon: "person-circle-outline" as const,
       items: [
-        { id: "profile", title: "프로필 정보", icon: "person-outline" as const },
-        { id: "language", title: "언어 설정", icon: "language-outline" as const },
-        { id: "notifications", title: "알림 설정", icon: "notifications-outline" as const },
+        { id: "profile", title: t("profile.editProfile"), icon: "person-outline" as const, onPress: () => {} },
+        {
+          id: "language",
+          title: t("more.language"),
+          icon: "language-outline" as const,
+          onPress: () => navigation.navigate("Language"),
+        },
+        {
+          id: "notifications",
+          title: t("more.notifications"),
+          icon: "notifications-outline" as const,
+          onPress: () => {},
+        },
       ],
     },
     {
       id: "app",
-      title: "앱 설정",
+      title: t("more.appSettings"),
       icon: "settings-outline" as const,
       items: [
-        { id: "theme", title: "테마 설정", icon: "color-palette-outline" as const },
-        { id: "sound", title: "소리 설정", icon: "volume-high-outline" as const },
-        { id: "cache", title: "캐시 지우기", icon: "trash-outline" as const },
+        { id: "theme", title: t("more.theme"), icon: "color-palette-outline" as const },
+        { id: "sound", title: t("more.soundVibration"), icon: "volume-high-outline" as const },
+        { id: "cache", title: t("common.delete"), icon: "trash-outline" as const },
       ],
     },
     {
       id: "help",
-      title: "도움말 및 정보",
+      title: t("more.help"),
       icon: "information-circle-outline" as const,
       items: [
-        { id: "feedback", title: "피드백 보내기", icon: "mail-outline" as const },
-        { id: "faq", title: "자주 묻는 질문", icon: "help-circle-outline" as const },
-        { id: "about", title: "앱 정보", icon: "information-outline" as const },
+        { id: "feedback", title: t("more.feedback"), icon: "mail-outline" as const },
+        { id: "faq", title: t("more.faq"), icon: "help-circle-outline" as const },
+        { id: "about", title: t("more.about"), icon: "information-outline" as const },
       ],
     },
   ];
@@ -69,7 +84,7 @@ const MoreScreen: React.FC = () => {
                 <Ionicons name={isDarkMode ? "moon-outline" : "sunny-outline"} size={18} color={theme.colors.warning} />
               </View>
               <Text style={[styles.themeToggleText, { color: theme.colors.text }]}>
-                {isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"}
+                {isDarkMode ? t("more.lightMode") : t("more.darkMode")}
               </Text>
             </View>
             <Ionicons name="chevron-forward-outline" size={20} color={theme.colors.textSecondary} />
@@ -88,7 +103,7 @@ const MoreScreen: React.FC = () => {
 
             <Card variant="outlined" style={styles.sectionCard}>
               {section.items.map((item, index) => (
-                <TouchableOpacity key={item.id}>
+                <TouchableOpacity key={item.id} onPress={item.onPress}>
                   <View
                     style={[
                       styles.settingItem,
@@ -114,10 +129,10 @@ const MoreScreen: React.FC = () => {
 
         {/* 추가 버전 정보 */}
         <View style={styles.versionContainer}>
-          <Text style={[styles.versionText, { color: theme.colors.textDisabled }]}>WorldWise 버전 1.0.0</Text>
+          <Text style={[styles.versionText, { color: theme.colors.textDisabled }]}>{t("more.appVersion")} 1.0.0</Text>
           <TouchableOpacity style={styles.logoutButton}>
             <Ionicons name="log-out-outline" size={16} color={theme.colors.error} style={styles.logoutIcon} />
-            <Text style={[styles.logoutText, { color: theme.colors.error }]}>로그아웃</Text>
+            <Text style={[styles.logoutText, { color: theme.colors.error }]}>{t("auth.logout")}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -7,6 +7,7 @@ export { default as Card } from "./common/Card";
 export { default as Icon } from "./common/Icon";
 export { default as Alert } from "./common/Alert";
 export { default as Badge } from "./common/Badge";
+export { default as LanguageSelector } from "./common/LanguageSelector";
 
 // 퀴즈 관련 컴포넌트
 export { default as QuizOption } from "./quiz/QuizOption";

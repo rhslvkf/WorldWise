@@ -1,12 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useLocale } from "../../contexts/LocaleContext";
 import { Card, Button, Badge } from "../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 const HomeScreen: React.FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -14,12 +16,12 @@ const HomeScreen: React.FC = () => {
         {/* 헤더 영역 */}
         <View style={[styles.header, { backgroundColor: theme.colors.background }]}>
           <View>
-            <Text style={[styles.welcomeText, { color: theme.colors.textSecondary }]}>안녕하세요</Text>
+            <Text style={[styles.welcomeText, { color: theme.colors.textSecondary }]}>{t("home.welcome")}</Text>
             <Text style={[styles.nameText, { color: theme.colors.text }]}>사용자님</Text>
           </View>
           <View style={styles.headerRightContainer}>
             <Badge
-              title="레벨 5"
+              title={t("profile.level", { level: 5 })}
               type="success"
               size="small"
               style={{ marginRight: 10 }}
@@ -38,9 +40,9 @@ const HomeScreen: React.FC = () => {
           {/* 오늘의 챌린지 */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>오늘의 챌린지</Text>
+              <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("home.dailyChallenge")}</Text>
               <TouchableOpacity>
-                <Text style={[styles.seeAllText, { color: theme.colors.brandMain }]}>모두 보기</Text>
+                <Text style={[styles.seeAllText, { color: theme.colors.brandMain }]}>{t("common.seeAll")}</Text>
               </TouchableOpacity>
             </View>
 
@@ -50,7 +52,7 @@ const HomeScreen: React.FC = () => {
                   <View style={[styles.cardIconContainer, { backgroundColor: `${theme.colors.brandSecondary}30` }]}>
                     <Ionicons name="time-outline" size={16} color={theme.colors.brandSecondary} />
                   </View>
-                  <Text style={[styles.cardTitle, { color: theme.colors.text }]}>5분 퀴즈 챌린지</Text>
+                  <Text style={[styles.cardTitle, { color: theme.colors.text }]}>{t("home.todayQuiz")}</Text>
                 </View>
                 <Badge
                   title="300XP"
@@ -61,18 +63,18 @@ const HomeScreen: React.FC = () => {
               </View>
 
               <Text style={[styles.cardDescription, { color: theme.colors.textSecondary }]}>
-                5분 안에 10개의 퀴즈를 풀어보세요. 모두 맞히면 보너스 XP를 획득할 수 있습니다!
+                {t("home.completeChallenge")}
               </Text>
 
               <Button variant="primary" size="medium">
-                도전하기
+                {t("quiz.start")}
               </Button>
             </Card>
           </View>
 
           {/* 내 진행 상황 */}
           <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>내 진행 상황</Text>
+            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("profile.statistics")}</Text>
 
             <View style={styles.statsContainer}>
               <Card variant="outlined" style={styles.statCard}>
@@ -80,7 +82,9 @@ const HomeScreen: React.FC = () => {
                   <Ionicons name="checkmark-circle-outline" size={20} color={theme.colors.success} />
                 </View>
                 <Text style={[styles.statValue, { color: theme.colors.text }]}>24</Text>
-                <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>완료한 퀴즈</Text>
+                <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
+                  {t("profile.quizzesCompleted")}
+                </Text>
               </Card>
 
               <Card variant="outlined" style={styles.statCard}>
@@ -88,7 +92,9 @@ const HomeScreen: React.FC = () => {
                   <Ionicons name="flag-outline" size={20} color={theme.colors.warning} />
                 </View>
                 <Text style={[styles.statValue, { color: theme.colors.text }]}>12</Text>
-                <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>방문한 국가</Text>
+                <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
+                  {t("explore.visitedCountries")}
+                </Text>
               </Card>
 
               <Card variant="outlined" style={styles.statCard}>
@@ -96,7 +102,9 @@ const HomeScreen: React.FC = () => {
                   <Ionicons name="trophy-outline" size={20} color={theme.colors.error} />
                 </View>
                 <Text style={[styles.statValue, { color: theme.colors.text }]}>5</Text>
-                <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>획득한 배지</Text>
+                <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
+                  {t("profile.badgesEarned")}
+                </Text>
               </Card>
             </View>
           </View>
@@ -104,18 +112,26 @@ const HomeScreen: React.FC = () => {
           {/* 최근 학습한 국가 */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>최근 학습한 국가</Text>
+              <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("home.recentlyViewed")}</Text>
               <TouchableOpacity>
-                <Text style={[styles.seeAllText, { color: theme.colors.brandMain }]}>모두 보기</Text>
+                <Text style={[styles.seeAllText, { color: theme.colors.brandMain }]}>{t("home.moreCountries")}</Text>
               </TouchableOpacity>
             </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.countriesContainer}>
               {[
-                { name: "일본", region: "아시아", icon: "globe-outline" as const },
-                { name: "미국", region: "북미", icon: "globe-outline" as const },
-                { name: "프랑스", region: "유럽", icon: "globe-outline" as const },
-                { name: "브라질", region: "남미", icon: "globe-outline" as const },
+                { name: t("countries.japan"), region: t("explore.continent.asia"), icon: "globe-outline" as const },
+                {
+                  name: t("countries.usa"),
+                  region: t("explore.continent.northAmerica"),
+                  icon: "globe-outline" as const,
+                },
+                { name: t("countries.france"), region: t("explore.continent.europe"), icon: "globe-outline" as const },
+                {
+                  name: t("countries.brazil"),
+                  region: t("explore.continent.southAmerica"),
+                  icon: "globe-outline" as const,
+                },
               ].map((country, index) => (
                 <Card key={index} variant="outlined" style={styles.countryCard}>
                   <View style={[styles.countryIconContainer, { backgroundColor: `${theme.colors.brandMain}20` }]}>
@@ -135,7 +151,7 @@ const HomeScreen: React.FC = () => {
 
           {/* 추천 학습 */}
           <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>맞춤 추천</Text>
+            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("home.recommendedQuizzes")}</Text>
 
             <Card variant="filled" style={styles.recommendedCard}>
               <View style={styles.recommendedContent}>
@@ -144,14 +160,16 @@ const HomeScreen: React.FC = () => {
                     <View style={[styles.recommendedIconContainer, { backgroundColor: `${theme.colors.info}30` }]}>
                       <Ionicons name="bulb-outline" size={16} color={theme.colors.info} />
                     </View>
-                    <Text style={[styles.recommendedTitle, { color: theme.colors.text }]}>유럽 국가 퀴즈 챌린지</Text>
+                    <Text style={[styles.recommendedTitle, { color: theme.colors.text }]}>
+                      {t("explore.continent.europe")} {t("quiz.title")} {t("home.dailyChallenge")}
+                    </Text>
                   </View>
                   <Text style={[styles.recommendedDescription, { color: theme.colors.textSecondary }]}>
-                    유럽의 국가들에 대해 더 많이 알아보세요. 15개의 퀴즈가 준비되어 있습니다.
+                    {t("home.exploreEuropeanCountries", { count: 15 })}
                   </Text>
                 </View>
                 <Button variant="outline" size="small">
-                  시작하기
+                  {t("quiz.start")}
                 </Button>
               </View>
             </Card>

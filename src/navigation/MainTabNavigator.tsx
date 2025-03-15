@@ -5,18 +5,20 @@ import { StyleSheet } from "react-native";
 import { useTheme } from "../contexts/ThemeContext";
 import { MainTabParamList } from "../types/navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useLocale } from "../contexts/LocaleContext";
 
 // 화면 임포트
 import ExploreScreen from "../screens/explore/ExploreScreen";
 import HomeScreen from "../screens/home/HomeScreen";
-import MoreScreen from "../screens/more/MoreScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
 import QuizScreen from "../screens/quiz/QuizScreen";
+import MoreStackNavigator from "./MoreStackNavigator";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 export const MainTabNavigator: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
+  const { t } = useLocale();
   const insets = useSafeAreaInsets();
 
   // 아이콘 사이즈 설정
@@ -56,8 +58,8 @@ export const MainTabNavigator: React.FC = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: "홈",
-          headerTitle: "WorldWise",
+          tabBarLabel: t("home.title"),
+          headerTitle: t("home.title"),
           tabBarIcon: ({ color }) => <Ionicons name="home" size={ICON_SIZE} color={color} />,
         }}
       />
@@ -65,8 +67,8 @@ export const MainTabNavigator: React.FC = () => {
         name="Explore"
         component={ExploreScreen}
         options={{
-          tabBarLabel: "탐험",
-          headerTitle: "세계 탐험",
+          tabBarLabel: t("explore.title"),
+          headerTitle: t("explore.title"),
           tabBarIcon: ({ color }) => <Ionicons name="compass" size={ICON_SIZE} color={color} />,
         }}
       />
@@ -74,8 +76,8 @@ export const MainTabNavigator: React.FC = () => {
         name="Quiz"
         component={QuizScreen}
         options={{
-          tabBarLabel: "퀴즈",
-          headerTitle: "퀴즈",
+          tabBarLabel: t("quiz.title"),
+          headerTitle: t("quiz.title"),
           tabBarIcon: ({ color }) => <Ionicons name="help-circle" size={ICON_SIZE} color={color} />,
         }}
       />
@@ -83,17 +85,17 @@ export const MainTabNavigator: React.FC = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: "프로필",
-          headerTitle: "내 프로필",
+          tabBarLabel: t("profile.title"),
+          headerTitle: t("profile.title"),
           tabBarIcon: ({ color }) => <Ionicons name="person" size={ICON_SIZE} color={color} />,
         }}
       />
       <Tab.Screen
         name="More"
-        component={MoreScreen}
+        component={MoreStackNavigator}
         options={{
-          tabBarLabel: "더보기",
-          headerTitle: "메뉴",
+          tabBarLabel: t("more.title"),
+          headerTitle: t("more.title"),
           tabBarIcon: ({ color }) => <Ionicons name="menu" size={ICON_SIZE} color={color} />,
         }}
       />

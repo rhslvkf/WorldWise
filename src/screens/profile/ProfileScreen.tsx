@@ -1,12 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useLocale } from "../../contexts/LocaleContext";
 import { Card, Button, Badge } from "../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 const ProfileScreen: React.FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
 
   // 유저 데이터 (임시)
   const user = {
@@ -21,24 +23,48 @@ const ProfileScreen: React.FC = () => {
     badges: [
       {
         id: "asia_master",
-        name: "아시아 마스터",
-        description: "아시아 국가 퀴즈 완료",
+        name: t("badges.asiaMaster"),
+        description: t("badges.asiaMasterDesc"),
         icon: "globe-outline" as const,
       },
-      { id: "streak_7", name: "7일 연속", description: "7일 연속 퀴즈 풀이", icon: "flame-outline" as const },
-      { id: "quiz_50", name: "퀴즈 50개", description: "50개 퀴즈 완료", icon: "ribbon-outline" as const },
+      {
+        id: "streak_7",
+        name: t("badges.streakDays", { count: 7 }),
+        description: t("badges.streakDaysDesc", { count: 7 }),
+        icon: "flame-outline" as const,
+      },
+      {
+        id: "quiz_50",
+        name: t("badges.quizCount", { count: 50 }),
+        description: t("badges.quizCountDesc", { count: 50 }),
+        icon: "ribbon-outline" as const,
+      },
     ],
     achievements: [
-      { id: "world_map", name: "세계 지도", progress: 0.3, total: 195, current: 59, icon: "map-outline" as const },
+      {
+        id: "world_map",
+        name: t("achievements.worldMap"),
+        progress: 0.3,
+        total: 195,
+        current: 59,
+        icon: "map-outline" as const,
+      },
       {
         id: "capitals",
-        name: "수도 전문가",
+        name: t("achievements.capitals"),
         progress: 0.5,
         total: 195,
         current: 98,
         icon: "business-outline" as const,
       },
-      { id: "flags", name: "국기 수집가", progress: 0.2, total: 195, current: 39, icon: "flag-outline" as const },
+      {
+        id: "flags",
+        name: t("achievements.flags"),
+        progress: 0.2,
+        total: 195,
+        current: 39,
+        icon: "flag-outline" as const,
+      },
     ],
   };
 
@@ -57,13 +83,13 @@ const ProfileScreen: React.FC = () => {
             <Text style={[styles.profileName, { color: theme.colors.text }]}>{user.name}</Text>
             <View style={styles.levelContainer}>
               <Badge
-                title={`레벨 ${user.level}`}
+                title={t("profile.level", { level: user.level })}
                 type="success"
                 size="small"
                 leftIcon={<Ionicons name="star" size={12} color={theme.colors.success} />}
               />
               <Badge
-                title={`${user.streak}일 연속`}
+                title={t("home.daysStreak", { count: user.streak })}
                 type="warning"
                 size="small"
                 style={{ marginLeft: 8 }}
@@ -72,7 +98,7 @@ const ProfileScreen: React.FC = () => {
             </View>
           </View>
           <Button variant="outline" size="small">
-            편집
+            {t("common.edit")}
           </Button>
         </View>
 
@@ -81,7 +107,7 @@ const ProfileScreen: React.FC = () => {
           <View style={styles.xpHeader}>
             <View style={styles.xpTitleContainer}>
               <Ionicons name="trophy" size={16} color={theme.colors.brandMain} style={styles.xpIcon} />
-              <Text style={[styles.xpTitle, { color: theme.colors.text }]}>경험치</Text>
+              <Text style={[styles.xpTitle, { color: theme.colors.text }]}>XP</Text>
             </View>
             <Text style={[styles.xpValue, { color: theme.colors.text }]}>
               {user.xp} / {user.xpToNextLevel} XP
@@ -99,13 +125,13 @@ const ProfileScreen: React.FC = () => {
             />
           </View>
           <Text style={[styles.xpNextLevel, { color: theme.colors.textSecondary }]}>
-            다음 레벨까지 {user.xpToNextLevel - user.xp} XP 남음
+            {t("profile.xpToNextLevel", { points: user.xpToNextLevel - user.xp })}
           </Text>
         </Card>
 
         {/* 통계 카드 */}
         <Card variant="outlined" style={styles.statsCard}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>나의 통계</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("profile.statistics")}</Text>
 
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
@@ -113,7 +139,9 @@ const ProfileScreen: React.FC = () => {
                 <Ionicons name="checkmark-done-outline" size={20} color={theme.colors.success} />
               </View>
               <Text style={[styles.statValue, { color: theme.colors.text }]}>{user.completedQuizzes}</Text>
-              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>완료한 퀴즈</Text>
+              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
+                {t("profile.quizzesCompleted")}
+              </Text>
             </View>
 
             <View style={styles.statItem}>
@@ -121,7 +149,9 @@ const ProfileScreen: React.FC = () => {
                 <Ionicons name="analytics-outline" size={20} color={theme.colors.info} />
               </View>
               <Text style={[styles.statValue, { color: theme.colors.text }]}>{accuracyRate}%</Text>
-              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>정답률</Text>
+              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
+                {t("profile.correctAnswers")}
+              </Text>
             </View>
 
             <View style={styles.statItem}>
@@ -129,7 +159,9 @@ const ProfileScreen: React.FC = () => {
                 <Ionicons name="flame-outline" size={20} color={theme.colors.warning} />
               </View>
               <Text style={[styles.statValue, { color: theme.colors.text }]}>{user.streak}</Text>
-              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>연속일</Text>
+              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
+                {t("profile.longestStreak")}
+              </Text>
             </View>
           </View>
         </Card>
@@ -137,9 +169,9 @@ const ProfileScreen: React.FC = () => {
         {/* 배지 섹션 */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>획득한 배지</Text>
+            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("profile.badges")}</Text>
             <TouchableOpacity>
-              <Text style={[styles.viewAllButton, { color: theme.colors.brandMain }]}>모두 보기</Text>
+              <Text style={[styles.viewAllButton, { color: theme.colors.brandMain }]}>{t("common.viewAll")}</Text>
             </TouchableOpacity>
           </View>
 
@@ -160,7 +192,7 @@ const ProfileScreen: React.FC = () => {
 
         {/* 도전 과제 섹션 */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>도전 과제</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("profile.achievements")}</Text>
 
           {user.achievements.map((achievement) => (
             <Card key={achievement.id} variant="outlined" style={styles.achievementCard}>
@@ -186,7 +218,7 @@ const ProfileScreen: React.FC = () => {
                     />
                   </View>
                   <Text style={[styles.achievementStatus, { color: theme.colors.textSecondary }]}>
-                    {achievement.current} / {achievement.total} 완료
+                    {achievement.current} / {achievement.total} {t("common.completed")}
                   </Text>
                 </View>
               </View>

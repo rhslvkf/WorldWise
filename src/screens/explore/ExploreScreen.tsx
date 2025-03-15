@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useLocale } from "../../contexts/LocaleContext";
 import { Card, Button, Badge } from "../../components";
 import { Theme } from "../../styles/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +12,7 @@ type ExploreMode = "story" | "map";
 
 const ExploreScreen: React.FC = () => {
   const { theme } = useTheme();
+  const { t } = useLocale();
   const [activeMode, setActiveMode] = useState<ExploreMode>("story");
 
   return (
@@ -35,7 +37,7 @@ const ExploreScreen: React.FC = () => {
                 { color: activeMode === "story" ? theme.colors.brandMain : theme.colors.textSecondary },
               ]}
             >
-              스토리 모드
+              {t("explore.storyMode")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -55,7 +57,7 @@ const ExploreScreen: React.FC = () => {
                 { color: activeMode === "map" ? theme.colors.brandMain : theme.colors.textSecondary },
               ]}
             >
-              세계 지도
+              {t("explore.worldMap")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -71,11 +73,13 @@ const ExploreScreen: React.FC = () => {
 
 // 스토리 모드 콘텐츠
 const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
+  const { t } = useLocale();
+
   // 대륙 데이터 (임시)
   const continents = [
     {
       id: "asia",
-      name: "아시아",
+      name: t("explore.continent.asia"),
       progress: 0.3,
       unlocked: true,
       color: theme.colors.asia,
@@ -83,7 +87,7 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
     },
     {
       id: "europe",
-      name: "유럽",
+      name: t("explore.continent.europe"),
       progress: 0.1,
       unlocked: true,
       color: theme.colors.europe,
@@ -91,7 +95,7 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
     },
     {
       id: "north-america",
-      name: "북아메리카",
+      name: t("explore.continent.northAmerica"),
       progress: 0,
       unlocked: false,
       color: theme.colors.northAmerica,
@@ -99,7 +103,7 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
     },
     {
       id: "south-america",
-      name: "남아메리카",
+      name: t("explore.continent.southAmerica"),
       progress: 0,
       unlocked: false,
       color: theme.colors.southAmerica,
@@ -107,7 +111,7 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
     },
     {
       id: "africa",
-      name: "아프리카",
+      name: t("explore.continent.africa"),
       progress: 0,
       unlocked: false,
       color: theme.colors.africa,
@@ -115,7 +119,7 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
     },
     {
       id: "oceania",
-      name: "오세아니아",
+      name: t("explore.continent.oceania"),
       progress: 0,
       unlocked: false,
       color: theme.colors.oceania,
@@ -125,14 +129,14 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
 
   return (
     <View style={styles.storyContainer}>
-      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>세계 탐험을 시작하세요!</Text>
+      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("explore.title")}</Text>
 
       <Text style={[styles.sectionDescription, { color: theme.colors.textSecondary }]}>
-        대륙별로 국가를 탐험하고 퀴즈를 풀면서 세계 지식을 넓혀보세요.
+        {t("onboarding.slide1Description")}
       </Text>
 
       {/* 현재 탐험 중인 대륙 */}
-      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>현재 탐험 중</Text>
+      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("explore.visitedCountries")}</Text>
 
       {continents
         .filter((c) => c.unlocked && c.progress > 0)
@@ -141,7 +145,7 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
         ))}
 
       {/* 탐험 가능한 대륙 */}
-      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>탐험 가능</Text>
+      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("explore.completedCountries")}</Text>
 
       {continents
         .filter((c) => c.unlocked && c.progress === 0)
@@ -150,7 +154,7 @@ const StoryModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
         ))}
 
       {/* 잠긴 대륙 */}
-      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>잠긴 대륙</Text>
+      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("explore.lockedCountries")}</Text>
 
       {continents
         .filter((c) => !c.unlocked)
@@ -177,6 +181,8 @@ interface ContinentCardProps {
 }
 
 const ContinentCard: React.FC<ContinentCardProps> = ({ continent, theme, isActive, isLocked }) => {
+  const { t } = useLocale();
+
   // 진행률을 퍼센트로 표시
   const progressPercent = Math.round(continent.progress * 100);
 
@@ -190,7 +196,7 @@ const ContinentCard: React.FC<ContinentCardProps> = ({ continent, theme, isActiv
             </View>
             <Text style={[styles.continentName, { color: theme.colors.text }]}>{continent.name}</Text>
             <Badge
-              title={isLocked ? "잠김" : `${progressPercent}%`}
+              title={isLocked ? t("common.locked") : `${progressPercent}%`}
               type={isLocked ? "default" : "continent"}
               continent={continent.id as any}
               size="small"
@@ -214,7 +220,7 @@ const ContinentCard: React.FC<ContinentCardProps> = ({ continent, theme, isActiv
         </View>
 
         <Button variant={isActive ? "primary" : "outline"} size="small" disabled={isLocked}>
-          {isLocked ? "잠김" : isActive ? "계속하기" : "시작하기"}
+          {isLocked ? t("common.locked") : isActive ? t("home.continueQuiz") : t("quiz.start")}
         </Button>
       </View>
     </Card>
@@ -223,33 +229,35 @@ const ContinentCard: React.FC<ContinentCardProps> = ({ continent, theme, isActiv
 
 // 지도 모드 콘텐츠
 const MapModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
+  const { t } = useLocale();
+
   return (
     <View style={styles.mapContainer}>
-      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>세계 지도</Text>
+      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("explore.worldMap")}</Text>
 
       <Text style={[styles.sectionDescription, { color: theme.colors.textSecondary }]}>
-        지도에서 국가를 선택하여 해당 국가에 대한 퀴즈와 정보를 확인하세요.
+        {t("explore.searchCountry")}
       </Text>
 
       {/* 지도 이미지 - 실제 앱에서는 상호작용 가능한 지도로 교체 */}
       <Card variant="outlined" style={styles.mapCard}>
         <Ionicons name="map" size={48} color={theme.colors.textSecondary} style={styles.mapIcon} />
         <Text style={[styles.mapPlaceholder, { color: theme.colors.textSecondary }]}>
-          세계 지도가 이곳에 표시됩니다. (개발 중)
+          {t("explore.worldMap")} (개발 중)
         </Text>
       </Card>
 
       {/* 대륙 필터 */}
-      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>대륙 선택</Text>
+      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("explore.categories")}</Text>
 
       <View style={styles.continentFilters}>
         {[
-          { name: "아시아", icon: "globe-outline" as const },
-          { name: "유럽", icon: "globe-outline" as const },
-          { name: "북아메리카", icon: "globe-outline" as const },
-          { name: "남아메리카", icon: "globe-outline" as const },
-          { name: "아프리카", icon: "globe-outline" as const },
-          { name: "오세아니아", icon: "globe-outline" as const },
+          { name: t("explore.continent.asia"), icon: "globe-outline" as const },
+          { name: t("explore.continent.europe"), icon: "globe-outline" as const },
+          { name: t("explore.continent.northAmerica"), icon: "globe-outline" as const },
+          { name: t("explore.continent.southAmerica"), icon: "globe-outline" as const },
+          { name: t("explore.continent.africa"), icon: "globe-outline" as const },
+          { name: t("explore.continent.oceania"), icon: "globe-outline" as const },
         ].map((continent, index) => (
           <Badge
             key={index}
@@ -263,10 +271,16 @@ const MapModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
       </View>
 
       {/* 인기 국가 */}
-      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>인기 국가</Text>
+      <Text style={[styles.subSectionTitle, { color: theme.colors.text }]}>{t("explore.popularCountries")}</Text>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.popularCountries}>
-        {["미국", "일본", "프랑스", "이탈리아", "호주"].map((country, index) => (
+        {[
+          t("countries.usa"),
+          t("countries.japan"),
+          t("countries.france"),
+          t("countries.italy"),
+          t("countries.australia"),
+        ].map((country, index) => (
           <Card key={index} variant="filled" style={styles.countryCard}>
             <Ionicons name="flag-outline" size={18} color={theme.colors.text} style={styles.countryIcon} />
             <Text style={[styles.countryName, { color: theme.colors.text }]}>{country}</Text>

@@ -1,0 +1,164 @@
+{
+  "common": {
+    "edit": "편집",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "search": "검색",
+    "viewAll": "모두 보기",
+    "seeAll": "전체 보기",
+    "completed": "완료",
+    "continue": "계속하기",
+    "back": "뒤로",
+    "next": "다음",
+    "skip": "건너뛰기",
+    "start": "시작하기",
+    "finish": "완료하기",
+    "locked": "잠김"
+  },
+  "home": {
+    "title": "홈",
+    "welcome": "환영합니다",
+    "dailyChallenge": "오늘의 챌린지",
+    "todayQuiz": "오늘의 퀴즈",
+    "completeChallenge": "오늘의 챌린지를 완료하고 보상을 받으세요!",
+    "continueQuiz": "이어서 풀기",
+    "recentlyViewed": "최근 본 국가",
+    "moreCountries": "더 많은 국가",
+    "recommendedQuizzes": "추천 퀴즈",
+    "daysStreak": "{{count}}일 연속",
+    "exploreEuropeanCountries": "유럽의 {{count}}개국을 탐험해보세요"
+  },
+  "explore": {
+    "title": "세계 탐험",
+    "storyMode": "스토리 모드",
+    "worldMap": "세계 지도",
+    "visitedCountries": "방문한 국가",
+    "completedCountries": "완료한 국가",
+    "lockedCountries": "잠긴 국가",
+    "searchCountry": "지도에서 국가를 검색하고 탐험해보세요!",
+    "categories": "카테고리",
+    "popularCountries": "인기 국가",
+    "continent": {
+      "asia": "아시아",
+      "europe": "유럽",
+      "northAmerica": "북아메리카",
+      "southAmerica": "남아메리카",
+      "africa": "아프리카",
+      "oceania": "오세아니아"
+    }
+  },
+  "quiz": {
+    "title": "퀴즈",
+    "allQuizzes": "모든 퀴즈",
+    "exploreCategories": "다양한 카테고리의 퀴즈를 탐험하고 지식을 쌓아보세요!",
+    "start": "퀴즈 풀기",
+    "nextQuestion": "다음 문제",
+    "quizInfo": "{{count}}문제, {{time}}분, {{difficulty}}",
+    "questionsCount": "{{count}}개 문제",
+    "estimatedTime": "약 {{minutes}}분 소요",
+    "capital": "수도",
+    "categories": {
+      "title": "카테고리",
+      "all": "전체",
+      "geography": "지리",
+      "history": "역사",
+      "culture": "문화",
+      "food": "음식",
+      "famousPeople": "유명 인물",
+      "natureEnvironment": "자연 및 환경"
+    },
+    "difficulty": {
+      "easy": "쉬움",
+      "medium": "보통",
+      "hard": "어려움"
+    },
+    "timeOptions": {
+      "seconds15": "15초",
+      "seconds30": "30초",
+      "seconds45": "45초",
+      "unlimited": "제한 없음"
+    }
+  },
+  "profile": {
+    "title": "프로필",
+    "statistics": "통계",
+    "quizzesCompleted": "완료한 퀴즈",
+    "correctAnswers": "정답률",
+    "longestStreak": "최대 연속일",
+    "level": "Lv.{{level}}",
+    "xpToNextLevel": "다음 레벨까지 {{points}} XP",
+    "badges": "획득한 배지",
+    "badgesEarned": "획득한 배지",
+    "achievements": "도전 과제",
+    "quizHistory": "퀴즈 기록",
+    "editProfile": "프로필 편집"
+  },
+  "badges": {
+    "asiaMaster": "아시아 마스터",
+    "asiaMasterDesc": "아시아 국가 관련 퀴즈를 모두 마스터했습니다!",
+    "streakDays": "{{count}}일 연속 출석",
+    "streakDaysDesc": "{{count}}일 연속으로 앱에 접속했습니다!",
+    "quizCount": "{{count}}개 퀴즈 완료",
+    "quizCountDesc": "{{count}}개의 퀴즈를 성공적으로 완료했습니다!"
+  },
+  "achievements": {
+    "worldMap": "세계 지도 마스터",
+    "capitals": "수도 전문가",
+    "flags": "국기 수집가"
+  },
+  "countries": {
+    "usa": "미국",
+    "japan": "일본",
+    "france": "프랑스",
+    "italy": "이탈리아",
+    "australia": "호주",
+    "brazil": "브라질"
+  },
+  "quizzes": {
+    "capitals": "수도 퀴즈",
+    "europe": "유럽 국가 퀴즈",
+    "asiaHistory": "아시아 역사 퀴즈",
+    "worldFood": "세계 음식 퀴즈"
+  },
+  "countryQuiz": {
+    "exampleQuestion": "프랑스의 수도는 어디인가요?",
+    "optionA": "파리",
+    "optionB": "로마",
+    "optionC": "베를린",
+    "optionD": "마드리드",
+    "correctAnswer": "정답입니다!",
+    "wrongAnswer": "틀렸습니다!"
+  },
+  "onboarding": {
+    "slide1Description": "전 세계 국가를 탐험하며 새로운 지식을 발견해보세요!"
+  },
+  "yesterday": "어제",
+  "daysAgo": "{{count}}일 전",
+  "more": {
+    "title": "더보기",
+    "accountSettings": "계정 설정",
+    "appSettings": "앱 설정",
+    "help": "도움말",
+    "language": "언어 설정",
+    "languageDescription": "앱에서 사용할 언어를 선택하세요. 모든 콘텐츠가 선택한 언어로 표시됩니다.",
+    "notifications": "알림 설정",
+    "theme": "테마 설정",
+    "soundVibration": "소리 및 진동",
+    "feedback": "피드백 보내기",
+    "faq": "자주 묻는 질문",
+    "about": "앱 정보",
+    "appVersion": "앱 버전",
+    "lightMode": "라이트 모드로 전환",
+    "darkMode": "다크 모드로 전환"
+  },
+  "auth": {
+    "login": "로그인",
+    "signup": "회원가입",
+    "logout": "로그아웃",
+    "email": "이메일",
+    "password": "비밀번호",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "confirmPassword": "비밀번호 확인"
+  }
+}
