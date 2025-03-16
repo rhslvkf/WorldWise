@@ -5,8 +5,9 @@ import { useLocale } from "../../contexts/LocaleContext";
 import { Card, Button, Badge } from "../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { HomeStackScreenProps } from "../../navigation/types";
 
-const HomeScreen: React.FC = () => {
+const HomeScreen: React.FC<HomeStackScreenProps<"HomeMain">> = ({ navigation }) => {
   const { theme } = useTheme();
   const { t } = useLocale();
 
@@ -120,31 +121,54 @@ const HomeScreen: React.FC = () => {
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.countriesContainer}>
               {[
-                { name: t("countries.japan"), region: t("explore.continent.asia"), icon: "globe-outline" as const },
                 {
-                  name: t("countries.usa"),
+                  id: "KR",
+                  name: t("countries.KR"),
+                  region: t("explore.continent.asia"),
+                  icon: "globe-outline" as const,
+                },
+                {
+                  id: "JP",
+                  name: t("countries.JP"),
+                  region: t("explore.continent.asia"),
+                  icon: "globe-outline" as const,
+                },
+                {
+                  id: "USA",
+                  name: t("countries.USA"),
                   region: t("explore.continent.northAmerica"),
                   icon: "globe-outline" as const,
                 },
-                { name: t("countries.france"), region: t("explore.continent.europe"), icon: "globe-outline" as const },
                 {
-                  name: t("countries.brazil"),
+                  id: "FR",
+                  name: t("countries.FR"),
+                  region: t("explore.continent.europe"),
+                  icon: "globe-outline" as const,
+                },
+                {
+                  id: "BR",
+                  name: t("countries.BR"),
                   region: t("explore.continent.southAmerica"),
                   icon: "globe-outline" as const,
                 },
               ].map((country, index) => (
-                <Card key={index} variant="outlined" style={styles.countryCard}>
-                  <View style={[styles.countryIconContainer, { backgroundColor: `${theme.colors.brandMain}20` }]}>
-                    <Ionicons name={country.icon} size={24} color={theme.colors.brandMain} />
-                  </View>
-                  <Text style={[styles.countryName, { color: theme.colors.text }]}>{country.name}</Text>
-                  <Badge
-                    title={country.region}
-                    type="default"
-                    size="small"
-                    leftIcon={<Ionicons name="location-outline" size={10} color={theme.colors.brandMain} />}
-                  />
-                </Card>
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => navigation.navigate("CountryDetail", { id: country.id, name: country.name })}
+                >
+                  <Card variant="outlined" style={styles.countryCard}>
+                    <View style={[styles.countryIconContainer, { backgroundColor: `${theme.colors.brandMain}20` }]}>
+                      <Ionicons name={country.icon} size={24} color={theme.colors.brandMain} />
+                    </View>
+                    <Text style={[styles.countryName, { color: theme.colors.text }]}>{country.name}</Text>
+                    <Badge
+                      title={country.region}
+                      type="default"
+                      size="small"
+                      leftIcon={<Ionicons name="location-outline" size={10} color={theme.colors.brandMain} />}
+                    />
+                  </Card>
+                </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
@@ -153,7 +177,10 @@ const HomeScreen: React.FC = () => {
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t("home.recommendedQuizzes")}</Text>
 
-            <Card variant="filled" style={styles.recommendedCard}>
+            <Card
+              variant="filled"
+              style={[styles.recommendedCard, { backgroundColor: theme.colors.backgroundSecondary }]}
+            >
               <View style={styles.recommendedContent}>
                 <View>
                   <View style={styles.recommendedHeader}>

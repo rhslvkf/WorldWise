@@ -14,7 +14,8 @@
     "skip": "Skip",
     "start": "Start",
     "finish": "Finish",
-    "locked": "Locked"
+    "locked": "Locked",
+    "backToHome": "Back to Home"
   },
   "home": {
     "title": "Home",
@@ -58,6 +59,22 @@
     "questionsCount": "{{count}} Questions",
     "estimatedTime": "About {{minutes}} min",
     "capital": "Capital",
+    "noQuestions": "No questions available for this quiz",
+    "explanation": "Explanation",
+    "seeResults": "See Results",
+    "result": {
+      "title": "Quiz Result",
+      "correct": "Correct",
+      "incorrect": "Incorrect",
+      "earnedXp": "Earned {{xp}} XP",
+      "keepLearning": "Keep Learning!",
+      "practiceMore": "Practice more quizzes to improve your knowledge",
+      "tryAgain": "Try Again",
+      "anotherQuiz": "Another Quiz",
+      "excellent": "Excellent!",
+      "good": "Good Job!",
+      "needsPractice": "Keep Practicing!"
+    },
     "categories": {
       "title": "Categories",
       "all": "All",
@@ -108,12 +125,41 @@
     "flags": "Flag Collector"
   },
   "countries": {
-    "usa": "United States",
-    "japan": "Japan",
-    "france": "France",
-    "italy": "Italy",
-    "australia": "Australia",
-    "brazil": "Brazil"
+    "KR": "South Korea",
+    "USA": "United States",
+    "JP": "Japan",
+    "FR": "France",
+    "IT": "Italy",
+    "AU": "Australia",
+    "BR": "Brazil"
+  },
+  "country": {
+    "about": "About",
+    "capital": "Capital",
+    "population": "Population",
+    "language": "Language",
+    "currency": "Currency",
+    "learnMore": "Learn More",
+    "startQuiz": "Start Quiz",
+    "facts": "Interesting Facts",
+    "landmarks": "Famous Landmarks",
+    "quizzes": "Country Quizzes",
+    "learnAbout": "Learn More",
+    "related": "Related Countries"
+  },
+  "countryDescriptions": {
+    "KR": "South Korea, officially the Republic of Korea, is a country in East Asia. It constitutes the southern part of the Korean Peninsula and shares a land border with North Korea. The country is known for its green, hilly countryside dotted with cherry trees and centuries-old Buddhist temples, plus its coastal fishing villages, tropical islands and high-tech cities such as Seoul, the capital.",
+    "US": "The United States of America is a country primarily located in North America. It consists of 50 states, a federal district, five major unincorporated territories, 326 Indian reservations, and some minor possessions. At 3.8 million square miles, it is the world's third- or fourth-largest country by total area.",
+    "JP": "Japan is an island country in East Asia. It is situated in the northwest Pacific Ocean, and is bordered on the west by the Sea of Japan, while extending from the Sea of Okhotsk in the north toward the East China Sea and Taiwan in the south.",
+    "CN": "China, officially the People's Republic of China, is a country in East Asia. It is the world's most populous country, with a population of around 1.4 billion. China spans five geographical time zones and borders 14 countries, the second most of any country in the world after Russia.",
+    "GB": "The United Kingdom, made up of England, Scotland, Wales and Northern Ireland, is an island nation in northwestern Europe. England – birthplace of Shakespeare and The Beatles – is home to the capital, London, a globally influential centre of finance and culture.",
+    "FR": "France, in Western Europe, encompasses medieval cities, alpine villages and Mediterranean beaches. Paris, its capital, is famed for its fashion houses, classical art museums including the Louvre and monuments like the Eiffel Tower.",
+    "DE": "Germany is a Western European country with a landscape of forests, rivers, mountain ranges and North Sea beaches. It has over 2 millennia of history. Berlin, its capital, is home to art and nightlife scenes, the Brandenburg Gate and many sites relating to WWII.",
+    "IT": "Italy, a European country with a long Mediterranean coastline, has left a powerful mark on Western culture and cuisine. Its capital, Rome, is home to the Vatican as well as landmark art and ancient ruins.",
+    "AU": "Australia is a country and continent surrounded by the Indian and Pacific oceans. Its major cities – Sydney, Brisbane, Melbourne, Perth, Adelaide – are coastal. Its capital, Canberra, is inland.",
+    "BR": "Brazil, officially the Federative Republic of Brazil, is the largest country in both South America and Latin America. At 8.5 million square kilometers and with over 217 million people, Brazil is the world's fifth-largest country by area and the seventh most populous.",
+    "ZA": "South Africa is a country on the southernmost tip of the African continent, marked by several distinct ecosystems. Inland safari destination Kruger National Park is populated by big game.",
+    "EG": "Egypt, a country linking northeast Africa with the Middle East, dates to the time of the pharaohs. Millennia-old monuments sit along the fertile Nile River Valley, including Giza's colossal Pyramids and Great Sphinx as well as Luxor's hieroglyph-lined Karnak Temple and Valley of the Kings tombs."
   },
   "quizzes": {
     "capitals": "Capitals Quiz",
@@ -128,7 +174,25 @@
     "optionC": "Berlin",
     "optionD": "Madrid",
     "correctAnswer": "Correct!",
-    "wrongAnswer": "Wrong answer!"
+    "wrongAnswer": "Wrong answer!",
+    "koreaQuestion1": "What is the capital of South Korea?",
+    "koreaOption1A": "Seoul",
+    "koreaOption1B": "Busan",
+    "koreaOption1C": "Incheon",
+    "koreaOption1D": "Daegu",
+    "koreaExplanation1": "Seoul is the capital and largest metropolis of South Korea, with a population of approximately 10 million people.",
+    "koreaQuestion2": "Which mountain is considered sacred in Korean culture?",
+    "koreaOption2A": "Mount Fuji",
+    "koreaOption2B": "Mount Everest",
+    "koreaOption2C": "Mount Baekdu",
+    "koreaOption2D": "Mount Kilimanjaro",
+    "koreaExplanation2": "Mount Baekdu (Baekdusan) is considered sacred in Korean culture and is mentioned in the South Korean national anthem.",
+    "koreaQuestion3": "What is the traditional Korean dress called?",
+    "koreaOption3A": "Kimono",
+    "koreaOption3B": "Hanbok",
+    "koreaOption3C": "Qipao",
+    "koreaOption3D": "Sarong",
+    "koreaExplanation3": "Hanbok is the traditional Korean attire worn during festivals and special occasions."
   },
   "onboarding": {
     "slide1Description": "Explore countries around the world and discover new knowledge!"

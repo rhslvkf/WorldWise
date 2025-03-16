@@ -1,81 +1,75 @@
-import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// 번역 파일 불러오기
+// 언어 파일 가져오기
 import en from "./locales/en.json";
 import ko from "./locales/ko.json";
-
-// 저장된 언어 설정 키
-export const LANGUAGE_STORAGE_KEY = "@language";
 
 // 지원하는 언어 목록
 export const LANGUAGES = {
   en: {
-    code: "en",
     name: "English",
     nativeName: "English",
   },
   ko: {
-    code: "ko",
     name: "Korean",
     nativeName: "한국어",
   },
 };
 
-// 번역 테이블
+// 기본 언어 설정
+export const DEFAULT_LANGUAGE = "ko";
+
+// 번역 테이블 명시적으로 설정
 const translations = {
-  en,
-  ko,
+  en: en,
+  ko: ko,
 };
 
-// i18n 인스턴스 생성
+// i18n 인스턴스 생성 및 설정
 const i18n = new I18n(translations);
 
-// 초기 설정
+// 번역이 없을 경우 기본 언어로 폴백
 i18n.enableFallback = true;
-i18n.defaultLocale = "ko"; // 한국어를 기본 언어로 설정
+i18n.defaultLocale = DEFAULT_LANGUAGE;
 
-// 저장된 언어 설정 불러오기
-export const loadStoredLanguage = async (): Promise<string | null> => {
-  try {
-    const storedLanguage = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
-    return storedLanguage;
-  } catch (error) {
-    console.error("언어 설정을 불러오는데 실패했습니다:", error);
-    return null;
-  }
-};
+// 초기화 시 로깅
+console.log("[i18n] 번역 테이블 초기화:", Object.keys(i18n.translations));
+console.log(`[i18n] 기본 언어: ${i18n.defaultLocale}`);
 
-// 언어 설정 저장하기
-export const storeLanguage = async (languageCode: string): Promise<void> => {
-  try {
-    await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, languageCode);
-  } catch (error) {
-    console.error("언어 설정을 저장하는데 실패했습니다:", error);
-  }
-};
-
-// 초기 언어 설정
+// 언어 초기화 함수
 export const initializeLanguage = async (): Promise<string> => {
-  // 저장된 설정 확인
-  const storedLanguage = await loadStoredLanguage();
+  try {
+    // AsyncStorage에서 저장된 언어 코드 가져오기
+    const storedLanguage = await AsyncStorage.getItem("language");
 
-  if (storedLanguage && Object.keys(LANGUAGES).includes(storedLanguage)) {
-    i18n.locale = storedLanguage;
-    return storedLanguage;
+    // 저장된 언어가 있고 지원하는 언어인 경우 해당 언어로 설정
+    if (storedLanguage && Object.keys(LANGUAGES).includes(storedLanguage)) {
+      i18n.locale = storedLanguage;
+      console.log(`[i18n] 저장된 언어로 초기화: ${storedLanguage}`);
+      return storedLanguage;
+    }
+
+    // 저장된 언어가 없거나 지원하지 않는 언어인 경우 기본 언어(한국어)로 설정
+    i18n.locale = DEFAULT_LANGUAGE;
+    console.log(`[i18n] 기본 언어로 초기화: ${DEFAULT_LANGUAGE}`);
+    return DEFAULT_LANGUAGE;
+  } catch (error) {
+    console.error("[i18n] 언어 초기화 중 오류 발생:", error);
+    i18n.locale = DEFAULT_LANGUAGE;
+    return DEFAULT_LANGUAGE;
   }
+};
 
-  // 저장된 설정이 없으면 기기 설정 확인
-  const deviceLanguage = Localization.locale.split("-")[0];
-  const supportedLanguage = Object.keys(LANGUAGES).includes(deviceLanguage) ? deviceLanguage : i18n.defaultLocale;
-
-  i18n.locale = supportedLanguage;
-
-  // 선택된 언어 저장
-  await storeLanguage(supportedLanguage);
-
-  return supportedLanguage;
+// 언어 저장 함수
+export const storeLanguage = async (language: string): Promise<void> => {
+  try {
+    await AsyncStorage.setItem("language", language);
+    console.log(`[i18n] 언어 저장 성공: ${language}`);
+  } catch (error) {
+    console.error("[i18n] 언어 저장 중 오류 발생:", error);
+  }
 };
 
 export default i18n;

@@ -6,11 +6,12 @@ import { Card, Button, Badge } from "../../components";
 import { Theme } from "../../styles/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { ExploreStackScreenProps } from "../../navigation/types";
 
 // 탐험 모드 유형
 type ExploreMode = "story" | "map";
 
-const ExploreScreen: React.FC = () => {
+const ExploreScreen: React.FC<ExploreStackScreenProps<"ExploreMain">> = ({ navigation }) => {
   const { theme } = useTheme();
   const { t } = useLocale();
   const [activeMode, setActiveMode] = useState<ExploreMode>("story");
@@ -64,7 +65,11 @@ const ExploreScreen: React.FC = () => {
 
         {/* 콘텐츠 영역 */}
         <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-          {activeMode === "story" ? <StoryModeContent theme={theme} /> : <MapModeContent theme={theme} />}
+          {activeMode === "story" ? (
+            <StoryModeContent theme={theme} />
+          ) : (
+            <MapModeContent theme={theme} navigation={navigation} />
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -228,7 +233,7 @@ const ContinentCard: React.FC<ContinentCardProps> = ({ continent, theme, isActiv
 };
 
 // 지도 모드 콘텐츠
-const MapModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
+const MapModeContent: React.FC<{ theme: Theme; navigation: any }> = ({ theme, navigation }) => {
   const { t } = useLocale();
 
   return (
@@ -275,16 +280,22 @@ const MapModeContent: React.FC<{ theme: Theme }> = ({ theme }) => {
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.popularCountries}>
         {[
-          t("countries.usa"),
-          t("countries.japan"),
-          t("countries.france"),
-          t("countries.italy"),
-          t("countries.australia"),
+          { id: "KR", name: t("countries.KR") },
+          { id: "USA", name: t("countries.USA") },
+          { id: "JP", name: t("countries.JP") },
+          { id: "FR", name: t("countries.FR") },
+          { id: "IT", name: t("countries.IT") },
+          { id: "AU", name: t("countries.AU") },
         ].map((country, index) => (
-          <Card key={index} variant="filled" style={styles.countryCard}>
-            <Ionicons name="flag-outline" size={18} color={theme.colors.text} style={styles.countryIcon} />
-            <Text style={[styles.countryName, { color: theme.colors.text }]}>{country}</Text>
-          </Card>
+          <TouchableOpacity
+            key={index}
+            onPress={() => navigation.navigate("CountryDetail", { id: country.id, name: country.name })}
+          >
+            <Card key={index} variant="filled" style={styles.countryCard}>
+              <Ionicons name="flag-outline" size={18} color={theme.colors.text} style={styles.countryIcon} />
+              <Text style={[styles.countryName, { color: theme.colors.text }]}>{country.name}</Text>
+            </Card>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>

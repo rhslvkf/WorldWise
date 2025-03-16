@@ -2,11 +2,11 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { LanguageSelector } from "../../components";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useLocale } from "../../contexts/LocaleContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MoreStackParamList } from "../../navigation/types";
+import { LanguageSelector } from "../../components";
 
 type LanguageScreenProps = NativeStackScreenProps<MoreStackParamList, "Language">;
 

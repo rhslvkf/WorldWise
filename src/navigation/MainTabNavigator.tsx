@@ -1,17 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { useTheme } from "../contexts/ThemeContext";
 import { MainTabParamList } from "../types/navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocale } from "../contexts/LocaleContext";
 
-// 화면 임포트
-import ExploreScreen from "../screens/explore/ExploreScreen";
-import HomeScreen from "../screens/home/HomeScreen";
+// 화면 및 네비게이터 임포트
+import HomeStackNavigator from "./HomeStackNavigator";
+import ExploreStackNavigator from "./ExploreStackNavigator";
+import QuizStackNavigator from "./QuizStackNavigator";
 import ProfileScreen from "../screens/profile/ProfileScreen";
-import QuizScreen from "../screens/quiz/QuizScreen";
 import MoreStackNavigator from "./MoreStackNavigator";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -56,7 +56,7 @@ export const MainTabNavigator: React.FC = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackNavigator}
         options={{
           tabBarLabel: t("home.title"),
           headerTitle: t("home.title"),
@@ -65,7 +65,7 @@ export const MainTabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Explore"
-        component={ExploreScreen}
+        component={ExploreStackNavigator}
         options={{
           tabBarLabel: t("explore.title"),
           headerTitle: t("explore.title"),
@@ -74,11 +74,10 @@ export const MainTabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Quiz"
-        component={QuizScreen}
+        component={QuizStackNavigator}
         options={{
-          tabBarLabel: t("quiz.title"),
-          headerTitle: t("quiz.title"),
-          tabBarIcon: ({ color }) => <Ionicons name="help-circle" size={ICON_SIZE} color={color} />,
+          tabBarLabel: ({ focused, color }) => <Text style={{ color, fontSize: 10 }}>{t("quiz.title")}</Text>,
+          tabBarIcon: ({ color, size }) => <Ionicons name="help-circle" size={size} color={color} />,
         }}
       />
       <Tab.Screen

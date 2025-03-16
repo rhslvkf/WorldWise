@@ -90,6 +90,18 @@ export interface MatchingQuiz extends QuizItem {
 export type Quiz = MultipleChoiceQuiz | TrueFalseQuiz | ImageQuiz | MatchingQuiz;
 
 /**
+ * 화면에 표시할 간소화된 퀴즈 질문 인터페이스
+ */
+export interface QuizQuestion {
+  id: string; // 질문 고유 ID
+  question: string; // 질문 텍스트
+  options: string[]; // 답변 옵션
+  correctAnswer: number; // 정답 인덱스
+  explanation: string; // 설명 텍스트
+  image?: string; // 선택적 이미지 URL
+}
+
+/**
  * 다국어 리소스 항목 인터페이스
  */
 export interface QuizTranslation {
