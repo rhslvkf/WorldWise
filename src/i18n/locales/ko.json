@@ -15,7 +15,8 @@
     "start": "시작",
     "finish": "완료",
     "locked": "잠김",
-    "backToHome": "홈으로 돌아가기"
+    "backToHome": "홈으로 돌아가기",
+    "loading": "로딩 중..."
   },
   "home": {
     "title": "홈",
@@ -62,6 +63,14 @@
     "noQuestions": "이 퀴즈에 사용 가능한 문제가 없습니다",
     "explanation": "설명",
     "seeResults": "결과 보기",
+    "true": "O",
+    "false": "X",
+    "checkAnswer": "정답 확인",
+    "imageError": "이미지를 불러올 수 없습니다",
+    "imageLoading": "이미지 로딩 중...",
+    "imageIdentify": "이 이미지는 무엇을 나타내나요?",
+    "imageLocation": "이 이미지는 어디에 있나요?",
+    "selectBasedOnImage": "이미지를 보고 맞는 답을 선택하세요",
     "result": {
       "title": "퀴즈 결과",
       "correct": "정답",

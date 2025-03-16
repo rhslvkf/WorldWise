@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Quiz, QuizType, MultipleChoiceQuiz, TrueFalseQuiz, ImageQuiz, MatchingQuiz } from "../../types/quiz";
-import { MultipleChoiceQuestion, TrueFalseQuestion, ImageQuestion, MatchingQuestion } from "./questions";
+import { Quiz, QuizType, MultipleChoiceQuiz, TrueFalseQuiz, ImageQuiz } from "../../types/quiz";
+import { MultipleChoiceQuestion, TrueFalseQuestion, ImageQuestion } from "./questions";
 
 interface QuizRendererProps {
   quiz: Quiz;
@@ -14,7 +14,7 @@ const QuizRenderer: React.FC<QuizRendererProps> = ({ quiz, onAnswer }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | boolean | null>(null);
   const [hasAnswered, setHasAnswered] = useState(false);
 
-  const handleAnswer = (answer: number | boolean | [number, number][]) => {
+  const handleAnswer = (answer: number | boolean) => {
     if (hasAnswered) return;
 
     let isCorrect = false;
@@ -31,15 +31,6 @@ const QuizRenderer: React.FC<QuizRendererProps> = ({ quiz, onAnswer }) => {
       case QuizType.IMAGE_QUIZ:
         isCorrect = Number(answer) === (quiz as ImageQuiz).correctOptionIndex;
         setSelectedAnswer(answer as number);
-        break;
-      case QuizType.MATCHING:
-        // For matching questions, check if the pairs match
-        const selectedPairs = answer as [number, number][];
-        isCorrect = selectedPairs.every(([a, b]) => {
-          return (quiz as MatchingQuiz).correctPairs.find(
-            (pair) => (pair[0] === a && pair[1] === b) || (pair[0] === b && pair[1] === a)
-          );
-        });
         break;
     }
 
@@ -91,20 +82,6 @@ const QuizRenderer: React.FC<QuizRendererProps> = ({ quiz, onAnswer }) => {
             isAnswered={hasAnswered}
             selectedIndex={selectedAnswer as number}
             correctIndex={typedQuiz.correctOptionIndex}
-          />
-        );
-      }
-      case QuizType.MATCHING: {
-        const typedQuiz = quiz as MatchingQuiz;
-        // 실제 구현에서는 i18n에서 가져온 쌍 항목 사용
-        const pairs = ["항목 1", "항목 2", "항목 3", "항목 4", "매칭 1", "매칭 2", "매칭 3", "매칭 4"];
-        return (
-          <MatchingQuestion
-            quiz={typedQuiz}
-            pairs={pairs}
-            onAnswer={handleAnswer}
-            isAnswered={hasAnswered}
-            correctPairs={typedQuiz.correctPairs}
           />
         );
       }

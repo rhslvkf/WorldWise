@@ -15,7 +15,8 @@
     "start": "Start",
     "finish": "Finish",
     "locked": "Locked",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "loading": "Loading..."
   },
   "home": {
     "title": "Home",
@@ -52,18 +53,26 @@
   "quiz": {
     "title": "Quiz",
     "allQuizzes": "All Quizzes",
-    "exploreCategories": "Explore various quiz categories and build your knowledge!",
+    "exploreCategories": "Explore different quiz categories and build your knowledge!",
     "start": "Start Quiz",
     "nextQuestion": "Next Question",
     "quizInfo": "{{count}} questions, {{time}} min, {{difficulty}}",
-    "questionsCount": "{{count}} Questions",
-    "estimatedTime": "About {{minutes}} min",
+    "questionsCount": "{{count}} questions",
+    "estimatedTime": "About {{minutes}} minutes",
     "capital": "Capital",
     "noQuestions": "No questions available for this quiz",
     "explanation": "Explanation",
     "seeResults": "See Results",
+    "true": "True",
+    "false": "False",
+    "checkAnswer": "Check Answer",
+    "imageError": "Failed to load image",
+    "imageLoading": "Loading image...",
+    "imageIdentify": "What does this image show?",
+    "imageLocation": "Where is this place located?",
+    "selectBasedOnImage": "Select the correct answer based on the image",
     "result": {
-      "title": "Quiz Result",
+      "title": "Quiz Results",
       "correct": "Correct",
       "incorrect": "Incorrect",
       "earnedXp": "Earned {{xp}} XP",
@@ -72,8 +81,8 @@
       "tryAgain": "Try Again",
       "anotherQuiz": "Another Quiz",
       "excellent": "Excellent!",
-      "good": "Good Job!",
-      "needsPractice": "Keep Practicing!"
+      "good": "Good job!",
+      "needsPractice": "Keep practicing!"
     },
     "categories": {
       "title": "Categories",

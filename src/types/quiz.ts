@@ -13,7 +13,6 @@ export enum QuizType {
   MULTIPLE_CHOICE = "multipleChoice", // 객관식
   TRUE_FALSE = "trueFalse", // O/X 퀴즈
   IMAGE_QUIZ = "imageQuiz", // 이미지 퀴즈
-  MATCHING = "matching", // 매칭 퀴즈
 }
 
 /**
@@ -77,17 +76,9 @@ export interface ImageQuiz extends QuizItem {
 }
 
 /**
- * 매칭 퀴즈 문항
- */
-export interface MatchingQuiz extends QuizItem {
-  type: QuizType.MATCHING;
-  correctPairs: Array<[number, number]>; // 정답 쌍 인덱스
-}
-
-/**
  * 모든 퀴즈 유형 통합 타입
  */
-export type Quiz = MultipleChoiceQuiz | TrueFalseQuiz | ImageQuiz | MatchingQuiz;
+export type Quiz = MultipleChoiceQuiz | TrueFalseQuiz | ImageQuiz;
 
 /**
  * 화면에 표시할 간소화된 퀴즈 질문 인터페이스
@@ -96,9 +87,10 @@ export interface QuizQuestion {
   id: string; // 질문 고유 ID
   question: string; // 질문 텍스트
   options: string[]; // 답변 옵션
-  correctAnswer: number; // 정답 인덱스
+  correctAnswer: number | boolean; // 정답 (인덱스 또는 true/false)
   explanation: string; // 설명 텍스트
   image?: string; // 선택적 이미지 URL
+  quizType: QuizType; // 퀴즈 유형 (OX, 객관식, 이미지)
 }
 
 /**
@@ -107,7 +99,6 @@ export interface QuizQuestion {
 export interface QuizTranslation {
   question: string; // 문제 텍스트
   options?: string[]; // 보기 (객관식, 이미지 퀴즈)
-  pairs?: string[]; // 매칭 항목 (매칭 퀴즈)
   explanation: string; // 설명 텍스트
 }
 
