@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { useTheme } from "../contexts/ThemeContext";
 import { MainTabParamList } from "../types/navigation";
@@ -18,8 +18,13 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 
 export const MainTabNavigator: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
-  const { t } = useLocale();
+  const { t, language } = useLocale();
   const insets = useSafeAreaInsets();
+
+  // language가 변경될 때마다 콘솔 출력으로 확인
+  useEffect(() => {
+    console.log("[MainTabNavigator] 현재 언어:", language);
+  }, [language]);
 
   // 아이콘 사이즈 설정
   const ICON_SIZE = 26;
@@ -58,45 +63,60 @@ export const MainTabNavigator: React.FC = () => {
         name="Home"
         component={HomeStackNavigator}
         options={{
-          tabBarLabel: t("home.title"),
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ color, fontSize: 10, fontWeight: focused ? "600" : "400" }}>{t("home.title")}</Text>
+          ),
           headerTitle: t("home.title"),
           tabBarIcon: ({ color }) => <Ionicons name="home" size={ICON_SIZE} color={color} />,
         }}
+        key={`home-${language}`}
       />
       <Tab.Screen
         name="Explore"
         component={ExploreStackNavigator}
         options={{
-          tabBarLabel: t("explore.title"),
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ color, fontSize: 10, fontWeight: focused ? "600" : "400" }}>{t("explore.title")}</Text>
+          ),
           headerTitle: t("explore.title"),
           tabBarIcon: ({ color }) => <Ionicons name="compass" size={ICON_SIZE} color={color} />,
         }}
+        key={`explore-${language}`}
       />
       <Tab.Screen
         name="Quiz"
         component={QuizStackNavigator}
         options={{
-          tabBarLabel: ({ focused, color }) => <Text style={{ color, fontSize: 10 }}>{t("quiz.title")}</Text>,
-          tabBarIcon: ({ color, size }) => <Ionicons name="help-circle" size={size} color={color} />,
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ color, fontSize: 10, fontWeight: focused ? "600" : "400" }}>{t("quiz.title")}</Text>
+          ),
+          tabBarIcon: ({ color }) => <Ionicons name="help-circle" size={ICON_SIZE} color={color} />,
         }}
+        key={`quiz-${language}`}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: t("profile.title"),
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ color, fontSize: 10, fontWeight: focused ? "600" : "400" }}>{t("profile.title")}</Text>
+          ),
           headerTitle: t("profile.title"),
           tabBarIcon: ({ color }) => <Ionicons name="person" size={ICON_SIZE} color={color} />,
         }}
+        key={`profile-${language}`}
       />
       <Tab.Screen
         name="More"
         component={MoreStackNavigator}
         options={{
-          tabBarLabel: t("more.title"),
+          tabBarLabel: ({ focused, color }) => (
+            <Text style={{ color, fontSize: 10, fontWeight: focused ? "600" : "400" }}>{t("more.title")}</Text>
+          ),
           headerTitle: t("more.title"),
           tabBarIcon: ({ color }) => <Ionicons name="menu" size={ICON_SIZE} color={color} />,
         }}
+        key={`more-${language}`}
       />
     </Tab.Navigator>
   );

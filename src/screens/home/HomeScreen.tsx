@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useLocale } from "../../contexts/LocaleContext";
@@ -9,10 +9,15 @@ import { HomeStackScreenProps } from "../../navigation/types";
 
 const HomeScreen: React.FC<HomeStackScreenProps<"HomeMain">> = ({ navigation }) => {
   const { theme } = useTheme();
-  const { t } = useLocale();
+  const { t, language } = useLocale();
+
+  // 언어가 변경될 때마다 콘솔 출력으로 확인
+  useEffect(() => {
+    console.log("[HomeScreen] 현재 언어:", language);
+  }, [language]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} key={`home-screen-${language}`}>
       <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
         {/* 헤더 영역 */}
         <View style={[styles.header, { backgroundColor: theme.colors.background }]}>
